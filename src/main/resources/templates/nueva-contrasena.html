@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Contraseña</title>
+</head>
+<body>
+    <h1>Nueva Contraseña</h1>
+
+    <form th:action="@{/reset-password/update}" method="post">
+        <input type="hidden" name="correo" th:value="${correo}">
+        <label>Nueva contraseña:</label>
+        <input type="password" name="contrasena" required><br>
+
+        <label>Confirmar contraseña:</label>
+        <input type="password" name="confirmarContrasena" required><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <p th:if="${error}" style="color:red" th:text="${error}"></p>
+    <p th:if="${mensaje}" style="color:green" th:text="${mensaje}"></p>
+</body>
+</html>

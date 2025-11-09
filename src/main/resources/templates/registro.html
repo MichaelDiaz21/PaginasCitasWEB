@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro de Usuario</title>
+    <style>
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Registro de Nuevo Usuario</h1>
+
+    <form th:action="@{/registrar}" th:object="${usuarioDTO}" method="post" id="registroForm">
+        <label>Documento:</label>
+        <input type="text" th:field="*{documento}" id="documento" required>
+        <p class="error" id="errorDocumento" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></p>
+
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" id="nombre" required>
+        <p class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+
+        <label>Apellido:</label>
+        <input type="text" th:field="*{apellido}" id="apellido" required>
+        <p class="error" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></p>
+
+
+        <label>Correo:</label>
+        <input type="email" th:field="*{correo}" id="correo" required>
+        <p class="error" id="errorCorreo" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></p>
+
+        <label>Contraseña:</label>
+        <input type="password" th:field="*{contrasena}" id="contrasena" required>
+        <p class="error" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></p>
+
+        <label>Confirmar contraseña:</label>
+        <input type="password" th:field="*{confirmarContrasena}" id="confirmarContrasena" required>
+        <p class="error" th:if="${#fields.hasErrors('confirmarContrasena')}" th:errors="*{confirmarContrasena}"></p>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    <p th:if="${mensaje}" style="color:green" th:text="${mensaje}"></p>
+    <hr>
+    <button onclick="window.location.href='/login'">Volver al inicio de sesión</button>
+
+    <script>
+        const formulario = document.getElementById('registroForm');
+        const documentoInput = document.getElementById('documento');
+        const correoInput = document.getElementById('correo');
+        const errorCorreo = document.getElementById('errorCorreo');
+        const contrasenaInput = document.getElementById('contrasena');
+        const confirmarContrasenaInput = document.getElementById('confirmarContrasena');
+        const nombreInput = document.getElementById('nombre');
+        const apellidoInput = document.getElementById('apellido');
+
+        // Documento: solo números
+        documentoInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Correo: validación en tiempo real
+        correoInput.addEventListener('input', function() {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regex.test(this.value)) {
+                errorCorreo.textContent = "El correo debe tener un formato válido (ej: usuario@dominio.com)";
+            } else {
+                errorCorreo.textContent = "";
+            }
+        });
+
+        // Validación antes de enviar el formulario
+        formulario.addEventListener('submit', function(e) {
+            // Campos vacíos
+            if (!documentoInput.value || !nombreInput.value || !correoInput.value || !apellidoInput.value  || !contrasenaInput.value || !confirmarContrasenaInput.value) {
+                alert("Todos los campos deben ser diligenciados completamente.");
+                e.preventDefault();
+                return;
+            }
+
+            // Contraseñas iguales
+            if (contrasenaInput.value !== confirmarContrasenaInput.value) {
+                alert("Las contraseñas no coinciden.");
+                e.preventDefault();
+                return;
+            }
+
+            // Correo válido
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regex.test(correoInput.value)) {
+                alert("El correo no tiene un formato válido.");
+                e.preventDefault();
+                return;
+            }
+
+            // Apellido
+            if (!apellidoInput.value) {
+            alert("El apellido es obligatorio.");
+            e.preventDefault();
+            return;
+}
+        });
+    </script>
+</body>
+</html>
