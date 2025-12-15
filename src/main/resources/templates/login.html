@@ -1,138 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión - PaginaCitasWEB</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            text-align: center;
-            padding-top: 80px;
-            margin: 0;
-            position: relative;
-        }
-        h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        form {
-            background-color: #fff;
-            padding: 30px;
-            display: inline-block;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        input:focus {
-            outline: none;
-            border-color: #2c3e50;
-            box-shadow: 0 0 5px rgba(44, 62, 80, 0.3);
-        }
-        .btn {
-            margin-top: 10px;
-            width: 100%;
-            background-color: #2c3e50;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #1a252f;
-        }
-        .error {
-            color: red;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        .links {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        .links a {
-            margin: 0 8px;
-            color: #2c3e50;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .links a:hover {
-            text-decoration: underline;
-            color: #1a252f;
-        }
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background-color: #1a252f;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Iniciar Sesión</title>
+
+  <!-- CSS global -->
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <!-- CSS solo para login / auth -->
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
+
 <body>
 
-    <!-- Botón Volver al inicio en la esquina superior izquierda -->
-    <a th:href="@{/}" class="back-btn">← Volver al inicio</a>
+  <!-- Volver -->
+  <a th:href="@{/}" class="back-btn">← Volver al inicio</a>
 
-    <h1>Iniciar Sesión</h1>
+  <main class="auth">
+    <section class="card auth-card">
+      
+      <h1>Iniciar Sesión</h1>
+      <p class="subtitle">
+        Accede para agendar y gestionar tus citas médicas.
+      </p>
 
-    <!-- Mostrar mensaje de error si existe -->
-    <p th:if="${error}" th:text="${error}" class="error"></p>
+      <!-- Error -->
+      <div th:if="${error}" class="error" th:text="${error}"></div>
 
-    <!-- Formulario de login -->
-    <form th:action="@{/login}" method="post">
+      <form th:action="@{/login}" method="post">
+
         <div class="form-group">
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" placeholder="Correo electrónico" required>
+          <label for="correo">Correo</label>
+          <input
+            type="email"
+            id="correo"
+            name="correo"
+            placeholder="Correo electrónico"
+            required
+          />
         </div>
 
         <div class="form-group">
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+          <label for="contrasena">Contraseña</label>
+          <input
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            placeholder="Contraseña"
+            required
+          />
         </div>
 
-        <button type="submit" class="btn">Iniciar Sesión</button>
-        
+        <button type="submit" class="btn btn--primary btn--full">
+          Iniciar Sesión
+        </button>
+
         <div class="links">
-            <a th:href="@{/registro}">Registrarse</a> |
-            <a th:href="@{/reset-password}">Olvidaste tu contraseña</a>
+          <a th:href="@{/registro}">Registrarse</a>
+          <span>|</span>
+          <a th:href="@{/reset-password}">Olvidaste tu contraseña</a>
         </div>
-    </form>
+
+      </form>
+    </section>
+  </main>
 
 </body>
 </html>

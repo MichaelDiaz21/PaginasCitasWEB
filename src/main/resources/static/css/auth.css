@@ -1,0 +1,116 @@
+/* Layout login */
+.auth {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fondo sutil */
+.auth::before {
+    content: "";
+    position: absolute;
+    inset: -80px;
+    background:
+        radial-gradient(900px 600px at 25% 25%, rgba(124, 92, 255, .18), transparent 60%),
+        radial-gradient(900px 600px at 75% 65%, rgba(79, 140, 255, .16), transparent 60%);
+    z-index: 0;
+}
+
+.auth-card {
+    width: min(520px, 100%);
+    z-index: 1;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, .05);
+    color: var(--text);
+}
+
+input::placeholder {
+    color: rgba(183, 197, 221, .75);
+}
+
+input:focus {
+    border-color: rgba(79, 140, 255, .55);
+    box-shadow: 0 0 0 4px rgba(79, 140, 255, .12);
+}
+
+/* Botón full */
+.btn--full {
+    width: 100%;
+    margin-top: 14px;
+}
+
+/* Links */
+.links {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--stroke);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.links a:hover {
+    color: var(--text);
+    text-decoration: underline;
+}
+
+/* Error */
+.error {
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 80, 80, .35);
+    background: rgba(255, 80, 80, .10);
+    color: #ffd2d2;
+}
+
+/* Volver */
+.back-btn {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 2;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--stroke);
+    background: rgba(15, 27, 45, .65);
+    backdrop-filter: blur(12px);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    transform: translateY(-1px);
+}

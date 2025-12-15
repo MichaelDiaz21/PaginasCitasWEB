@@ -1,0 +1,148 @@
+/* Page variants */
+.page--auth{
+  min-height: 100vh;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.topbar--auth{
+  margin-inline: auto;
+  max-width: 980px;
+  width: 100%;
+}
+
+.card--auth{
+  margin-inline: auto;
+  max-width: 980px;
+  width: 100%;
+}
+
+/* grid de 2 columnas para escritorio */
+.grid--2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 860px){
+  .grid--2{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* errores */
+.error{
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: #ffb4b4;
+}
+
+/* alerta ok */
+.alert{
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+}
+
+.alert--ok{
+  color: #c9ffd7;
+}
+
+/* separa acciones del form */
+.form-actions--bottom{
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  justify-content: center;
+  gap: 12px;
+}
+
+.field{
+  display: grid;
+  gap: 8px;
+}
+
+/* label más limpio */
+.field label{
+  font-weight: 600;
+  letter-spacing: .2px;
+  opacity: .95;
+}
+
+/* input/select con look glass */
+.field input,
+.field select{
+  width: 100%;
+  height: 46px;
+  padding: 10px 14px;
+  border-radius: 14px;
+
+  color: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.06);
+
+  border: 1px solid rgba(255,255,255,.14);
+  outline: none;
+
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease, transform .12s ease;
+}
+
+/* placeholder más elegante */
+.field input::placeholder{
+  color: rgba(255,255,255,.55);
+}
+
+/* focus con glow suave */
+.field input:focus,
+.field select:focus{
+  background: rgba(255,255,255,.08);
+  border-color: rgba(120,160,255,.65);
+  box-shadow: 0 0 0 4px rgba(120,160,255,.18);
+}
+
+/* hover leve */
+.field input:hover,
+.field select:hover{
+  border-color: rgba(255,255,255,.22);
+}
+
+/* “invalid” (si el navegador marca) */
+.field input:invalid:focus{
+  border-color: rgba(255,120,120,.75);
+  box-shadow: 0 0 0 4px rgba(255,120,120,.14);
+}
+
+/* Select: mejora del icono */
+.field select{
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.7) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.7) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 19px,
+    calc(100% - 12px) 19px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+/* si tu navegador pinta el fondo amarillo al autocompletar */
+.field input:-webkit-autofill{
+  -webkit-text-fill-color: rgba(255,255,255,.92);
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,.06) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* en mobile: inputs un poco más altos */
+@media (max-width: 860px){
+  .field input,
+  .field select{
+    height: 48px;
+  }
+}
+
+.card--auth .form{
+  padding-top: 6px;
+}

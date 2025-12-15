@@ -1,103 +1,144 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registro de Usuario</title>
-    <style>
-        .error { color: red; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Usuario</title>
+
+  <!-- base del proyecto -->
+  <link rel="stylesheet" th:href="@{/css/styles-admin.css}">
+  <!-- estilos SOLO de registro -->
+  <link rel="stylesheet" th:href="@{/css/registro.css}">
 </head>
+
 <body>
-    <h1>Registro de Nuevo Usuario</h1>
+  <main class="page page--auth">
+    <!-- fondo decorativo -->
+    <div class="bg-blur b1" aria-hidden="true"></div>
+    <div class="bg-blur b2" aria-hidden="true"></div>
 
-    <form th:action="@{/registrar}" th:object="${usuarioDTO}" method="post" id="registroForm">
-        <label>Documento:</label>
-        <input type="text" th:field="*{documento}" id="documento" required>
-        <p class="error" id="errorDocumento" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></p>
+    <header class="topbar topbar--auth">
+      <div class="topbar__title">
+        <div class="icon">📝</div>
+        <div>
+          <h1>Registro</h1>
+          <p>Crea tu cuenta para acceder al sistema de citas</p>
+        </div>
+      </div>
 
-        <label>Nombre:</label>
-        <input type="text" th:field="*{nombre}" id="nombre" required>
-        <p class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+      <a th:href="@{/login}" class="btn btn--ghost">← Volver al inicio</a>
+    </header>
 
-        <label>Apellido:</label>
-        <input type="text" th:field="*{apellido}" id="apellido" required>
-        <p class="error" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></p>
+    <section class="card card--form card--auth">
+      <div class="card__head">
+        <h2>Datos del usuario</h2>
+        <span class="chip">Nuevo</span>
+      </div>
 
+      <form class="form"
+            th:action="@{/registrar}"
+            th:object="${usuarioDTO}"
+            method="post"
+            id="registroForm"
+            novalidate>
 
-        <label>Correo:</label>
-        <input type="email" th:field="*{correo}" id="correo" required>
-        <p class="error" id="errorCorreo" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></p>
+        <div class="grid grid--2">
+          <div class="field">
+            <label for="documento">Documento</label>
+            <input type="text" th:field="*{documento}" id="documento" placeholder="Ej: 1234567890" required>
+            <p class="error" id="errorDocumento"
+               th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></p>
+          </div>
 
-        <label>Contraseña:</label>
-        <input type="password" th:field="*{contrasena}" id="contrasena" required>
-        <p class="error" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></p>
+          <div class="field">
+            <label for="correo">Correo</label>
+            <input type="email" th:field="*{correo}" id="correo" placeholder="usuario@dominio.com" required>
+            <p class="error" id="errorCorreo"
+               th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></p>
+          </div>
 
-        <label>Confirmar contraseña:</label>
-        <input type="password" th:field="*{confirmarContrasena}" id="confirmarContrasena" required>
-        <p class="error" th:if="${#fields.hasErrors('confirmarContrasena')}" th:errors="*{confirmarContrasena}"></p>
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" th:field="*{nombre}" id="nombre" placeholder="Ej: Juan" required>
+            <p class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+          </div>
 
-        <button type="submit">Registrar</button>
-    </form>
+          <div class="field">
+            <label for="apellido">Apellido</label>
+            <input type="text" th:field="*{apellido}" id="apellido" placeholder="Ej: Pérez" required>
+            <p class="error" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></p>
+          </div>
 
-    <p th:if="${mensaje}" style="color:green" th:text="${mensaje}"></p>
-    <hr>
-    <button onclick="window.location.href='/login'">Volver al inicio de sesión</button>
+          <div class="field">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" th:field="*{contrasena}" id="contrasena" placeholder="Mínimo 6 caracteres" required>
+            <p class="error" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></p>
+          </div>
 
-    <script>
-        const formulario = document.getElementById('registroForm');
-        const documentoInput = document.getElementById('documento');
-        const correoInput = document.getElementById('correo');
-        const errorCorreo = document.getElementById('errorCorreo');
-        const contrasenaInput = document.getElementById('contrasena');
-        const confirmarContrasenaInput = document.getElementById('confirmarContrasena');
-        const nombreInput = document.getElementById('nombre');
-        const apellidoInput = document.getElementById('apellido');
+          <div class="field">
+            <label for="confirmarContrasena">Confirmar contraseña</label>
+            <input type="password" th:field="*{confirmarContrasena}" id="confirmarContrasena" placeholder="Repite la contraseña" required>
+            <p class="error" th:if="${#fields.hasErrors('confirmarContrasena')}" th:errors="*{confirmarContrasena}"></p>
+          </div>
+        </div>
 
-        // Documento: solo números
-        documentoInput.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '');
-        });
+        <div class="form-actions form-actions--bottom">
+          <button type="submit" class="btn btn--primary">Registrar</button>
+          <a th:href="@{/login}" class="btn btn--soft">Ya tengo cuenta</a>
+        </div>
 
-        // Correo: validación en tiempo real
-        correoInput.addEventListener('input', function() {
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regex.test(this.value)) {
-                errorCorreo.textContent = "El correo debe tener un formato válido (ej: usuario@dominio.com)";
-            } else {
-                errorCorreo.textContent = "";
-            }
-        });
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+      </form>
+    </section>
+  </main>
 
-        // Validación antes de enviar el formulario
-        formulario.addEventListener('submit', function(e) {
-            // Campos vacíos
-            if (!documentoInput.value || !nombreInput.value || !correoInput.value || !apellidoInput.value  || !contrasenaInput.value || !confirmarContrasenaInput.value) {
-                alert("Todos los campos deben ser diligenciados completamente.");
-                e.preventDefault();
-                return;
-            }
+  <script>
+    const formulario = document.getElementById('registroForm');
+    const documentoInput = document.getElementById('documento');
+    const correoInput = document.getElementById('correo');
+    const errorCorreo = document.getElementById('errorCorreo');
+    const contrasenaInput = document.getElementById('contrasena');
+    const confirmarContrasenaInput = document.getElementById('confirmarContrasena');
+    const nombreInput = document.getElementById('nombre');
+    const apellidoInput = document.getElementById('apellido');
 
-            // Contraseñas iguales
-            if (contrasenaInput.value !== confirmarContrasenaInput.value) {
-                alert("Las contraseñas no coinciden.");
-                e.preventDefault();
-                return;
-            }
+    // Documento: solo números
+    documentoInput.addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '');
+    });
 
-            // Correo válido
-            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regex.test(correoInput.value)) {
-                alert("El correo no tiene un formato válido.");
-                e.preventDefault();
-                return;
-            }
+    // Correo: validación en tiempo real
+    correoInput.addEventListener('input', function() {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(this.value)) {
+        errorCorreo.textContent = "El correo debe tener un formato válido (ej: usuario@dominio.com)";
+      } else {
+        errorCorreo.textContent = "";
+      }
+    });
 
-            // Apellido
-            if (!apellidoInput.value) {
-            alert("El apellido es obligatorio.");
-            e.preventDefault();
-            return;
-}
-        });
-    </script>
+    // Validación antes de enviar
+    formulario.addEventListener('submit', function(e) {
+      if (!documentoInput.value || !nombreInput.value || !correoInput.value || !apellidoInput.value ||
+          !contrasenaInput.value || !confirmarContrasenaInput.value) {
+        alert("Todos los campos deben ser diligenciados completamente.");
+        e.preventDefault();
+        return;
+      }
+
+      if (contrasenaInput.value !== confirmarContrasenaInput.value) {
+        alert("Las contraseñas no coinciden.");
+        e.preventDefault();
+        return;
+      }
+
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(correoInput.value)) {
+        alert("El correo no tiene un formato válido.");
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
+

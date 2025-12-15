@@ -1,91 +1,50 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Historial de Citas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 30px;
-            text-align: center;
-        }
-        table {
-            margin: 0 auto;
-            border-collapse: collapse;
-            width: 80%;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ccc;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .btn-cancelar {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .btn-cancelar:hover {
-            background-color: #c82333;
-        }
-        .mensaje {
-            color: green;
-            font-weight: bold;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Historial de Citas</title>
+
+  <link rel="stylesheet" th:href="@{/css/styles-user.css}">
+  <link rel="stylesheet" th:href="@{/css/historial-citas.css}">
 </head>
 <body>
 
-<h1>Historial de Citas</h1>
+  <a th:href="@{/home}" class="back-btn">← Volver al inicio</a>
 
-<div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
-<div th:if="${error}" class="error" th:text="${error}"></div>
+  <h1>Historial de Citas</h1>
 
-<table>
-    <thead>
+  <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
+  <div th:if="${error}" class="error" th:text="${error}"></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
         <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Tipo</th>
-            <th>Centro Médico</th>
-            <th>Estado</th>
-            <th>Acciones</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Tipo</th>
+          <th>Centro Médico</th>
+          <th>Estado</th>
+          <th>Acciones</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr th:each="cita : ${citas}">
-            <td th:text="${#temporals.format(cita.fechaHora, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#temporals.format(cita.fechaHora, 'HH:mm')}"></td>
-            <td th:text="${cita.tipo}"></td>
-            <td th:text="${cita.centroMedico}"></td>
-            <td th:text="${cita.estado}"></td>
-           <td>
-    <a th:href="@{'/usuario/citas/cancelar/' + ${cita.id}}"
-       onclick="return confirm('¿Seguro que deseas cancelar esta cita?');">
-        <button class="btn-cancelar">Cancelar</button>
-    </a>
-</td>
-
-
+          <td th:text="${#temporals.format(cita.fechaHora,'yyyy-MM-dd')}"></td>
+          <td th:text="${#temporals.format(cita.fechaHora,'HH:mm')}"></td>
+          <td th:text="${cita.tipo}"></td>
+          <td th:text="${cita.centroMedico}"></td>
+          <td th:text="${cita.estado}"></td>
+          <td>
+            <a th:href="@{'/usuario/citas/cancelar/' + ${cita.id}}"
+               onclick="return confirm('¿Cancelar esta cita?');">
+              <button class="btn-cancelar">Cancelar</button>
+            </a>
+          </td>
         </tr>
-    </tbody>
-</table>
-
-<br>
-<a href="/usuario/citas">Volver al menú</a>
+      </tbody>
+    </table>
+  </div>
 
 </body>
 </html>

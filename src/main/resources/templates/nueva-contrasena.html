@@ -1,23 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Nueva Contraseña</title>
+
+    <!-- CSS base del proyecto -->
+    <link rel="stylesheet" th:href="@{/css/styles-admin.css}">
+    <!-- CSS específico -->
+    <link rel="stylesheet" th:href="@{/css/nueva-contrasena.css}">
 </head>
 <body>
-    <h1>Nueva Contraseña</h1>
 
-    <form th:action="@{/reset-password/update}" method="post">
-        <input type="hidden" name="correo" th:value="${correo}">
-        <label>Nueva contraseña:</label>
-        <input type="password" name="contrasena" required><br>
+<main class="auth-page">
 
-        <label>Confirmar contraseña:</label>
-        <input type="password" name="confirmarContrasena" required><br>
+    <section class="card card--auth">
 
-        <button type="submit">Guardar</button>
-    </form>
+        <header class="card__head">
+            <h1>🔁 Nueva contraseña</h1>
+            <p>Escribe una contraseña segura y confírmala</p>
+        </header>
 
-    <p th:if="${error}" style="color:red" th:text="${error}"></p>
-    <p th:if="${mensaje}" style="color:green" th:text="${mensaje}"></p>
+        <!-- Mensajes -->
+        <p class="alert alert--error" th:if="${error}" th:text="${error}"></p>
+        <p class="alert alert--ok" th:if="${mensaje}" th:text="${mensaje}"></p>
+
+        <form class="form" th:action="@{/reset-password/update}" method="post">
+
+            <input type="hidden" name="correo" th:value="${correo}">
+
+            <div class="field">
+                <label for="contrasena">Nueva contraseña</label>
+                <input
+                        id="contrasena"
+                        type="password"
+                        name="contrasena"
+                        placeholder="Mínimo 6 caracteres"
+                        minlength="6"
+                        required>
+            </div>
+
+            <div class="field">
+                <label for="confirmarContrasena">Confirmar contraseña</label>
+                <input
+                        id="confirmarContrasena"
+                        type="password"
+                        name="confirmarContrasena"
+                        placeholder="Repite la contraseña"
+                        minlength="6"
+                        required>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full">
+                Guardar
+            </button>
+
+            <a th:href="@{/login}" class="btn btn--soft btn--full">
+                Volver al login
+            </a>
+        </form>
+
+    </section>
+
+</main>
+
 </body>
 </html>

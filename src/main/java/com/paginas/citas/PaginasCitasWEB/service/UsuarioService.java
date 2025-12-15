@@ -17,12 +17,24 @@ public class UsuarioService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // Registrar usuario con contraseña encriptada
+    // ✅ REGISTRO (encripta siempre)
     public void registrarUsuario(Usuario usuario) {
+        usuario.setCorreo(usuario.getCorreo().trim().toLowerCase());
+        usuario.setDocumento(usuario.getDocumento().trim());
+
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         usuarioRepository.save(usuario);
     }
 
+    // ✅ RESET/UPDATE PASSWORD (encripta siempre)
+    public void actualizarContrasena(String correo, String contrasenaPlana) {
+        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
+        if (usuario == null) return;
+
+        usuario.setContrasena(passwordEncoder.encode(contrasenaPlana));
+        usuarioRepository.save(usuario);
+    }
+    
     // Listar todos los usuarios
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();

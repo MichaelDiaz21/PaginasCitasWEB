@@ -1,16 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Bienvenido - PaginaCitasWEB</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bienvenido - Agendamiento</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
+
 <body>
-    <h1>Bienvenido al agendamiento de citas</h1>
-    <p>Gestiona tus citas médicas de manera fácil y rápida</p>
+  <main class="split">
+    <!-- Izquierda: imagen -->
+    <section class="split__left" aria-label="Imagen médica">
+      <img th:src="@{/img/INDEX.jpg}" alt="Médico" class="doctor-img">
+      <div class="left-overlay" aria-hidden="true"></div>
+    </section>
 
-    <!-- Botón vuelve a ser "Agendar Cita" -->
-    <a th:href="@{/login}" class="btn">Agendar Cita</a>
+    <!-- Derecha: contenido -->
+    <section class="split__right">
+      <div class="card">
+        <h1>Bienvenido al agendamiento de citas</h1>
+        <p class="subtitle">
+          Gestiona tus citas médicas de manera fácil y rápida, sin filas y sin complicaciones.
+        </p>
 
+        <a th:href="@{/login}" class="btn btn--primary">Agendar cita</a>
+
+        <div class="trust">
+          <span class="pill">✅ Rápido</span>
+          <span class="pill">🔒 Seguro</span>
+          <span class="pill">📅 24/7</span>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

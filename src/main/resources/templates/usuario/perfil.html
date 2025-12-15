@@ -1,114 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Mi Perfil</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            min-height: 100vh;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-top: 60px;
-            font-size: 32px;
-        }
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background-color: #1a252f;
-        }
-        .profile-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            max-width: 500px;
-            margin: 0 auto;
-            margin-top: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-            font-size: 14px;
-            background-color: #f9f9f9;
-            color: #555;
-        }
-        input:read-only {
-            background-color: #f5f5f5;
-            color: #777;
-            cursor: not-allowed;
-        }
-        .field-value {
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-top: 5px;
-            color: #555;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Mi Perfil</title>
+
+  <link rel="stylesheet" th:href="@{/css/styles-user.css}">
+  <link rel="stylesheet" th:href="@{/css/perfil.css}">
 </head>
 <body>
 
-    <!-- Botón Volver al Home en la esquina superior izquierda -->
-    <a th:href="@{/home}" class="back-btn">← Volver al Home</a>
+  <a th:href="@{/home}" class="back-btn">← Volver al inicio</a>
 
-    <div class="profile-container">
-        <h1>Mi Perfil</h1>
-        
-        <form>
-            <div class="form-group">
-                <label>Documento:</label>
-                <input type="text" th:value="${usuario.documento}" readonly />
-            </div>
+  <div class="profile-container">
+    <h1>Mi Perfil</h1>
 
-            <div class="form-group">
-                <label>Nombre:</label>
-                <input type="text" th:value="${usuario.nombre}" readonly />
-            </div>
-
-            <div class="form-group">
-                <label>Apellido:</label>
-                <input type="text" th:value="${usuario.apellido}" readonly />
-            </div>
-
-            <div class="form-group">
-                <label>Correo:</label>
-                <input type="text" th:value="${usuario.correo}" readonly />
-            </div>
-        </form>
+    <div class="form-group">
+      <label>Documento</label>
+      <input type="text" th:value="${usuario.documento}" readonly>
     </div>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" th:value="${usuario.nombre}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>Apellido</label>
+      <input type="text" th:value="${usuario.apellido}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="text" th:value="${usuario.correo}" readonly>
+    </div>
+  </div>
 
 </body>
 </html>

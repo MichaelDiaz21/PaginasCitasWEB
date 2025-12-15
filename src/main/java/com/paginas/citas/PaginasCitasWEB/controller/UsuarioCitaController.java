@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.paginas.citas.PaginasCitasWEB.model.CentroMedicoView;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,12 +38,11 @@ public class UsuarioCitaController {
 
     // Panel principal de citas
     @GetMapping
-    public String panelCitas(HttpSession session, Model model) {
-        Usuario usuario = obtenerUsuarioLogueado(session);
-        if (usuario == null)
-            return "redirect:/login";
-        return "usuario/panelCitas";
-    }
+public String panelCitas(HttpSession session, Model model) {
+    Usuario usuario = obtenerUsuarioLogueado(session);
+    if (usuario == null) return "redirect:/login";
+    return "redirect:/usuario/citas/historial"; // ✅ ya no abre panelCitas
+}
 
     // Historial de citas del usuario
     @GetMapping("/historial")
@@ -58,18 +58,32 @@ public class UsuarioCitaController {
 
     // Mostrar formulario para solicitar nueva cita
     @GetMapping("/disponibles")
-    public String mostrarFormularioSolicitud(HttpSession session, Model model) {
-        Usuario usuario = obtenerUsuarioLogueado(session);
-        if (usuario == null)
-            return "redirect:/login";
+public String mostrarFormularioSolicitud(HttpSession session, Model model) {
+    Usuario usuario = obtenerUsuarioLogueado(session);
+    if (usuario == null) return "redirect:/login";
 
-        List<String> tiposCita = List.of("Consulta General", "Odontología", "Pediatría", "Cardiología");
-        List<String> centros = List.of("Centro Médico Norte", "Clínica Central", "Hospital del Sur", "IPS San José");
+    List<CentroMedicoView> centros = getCentros();
 
-        model.addAttribute("tiposCita", tiposCita);
-        model.addAttribute("centros", centros);
-        return "usuario/citasDisponibles";
-    }
+    // ✅ sacar especialidades únicas (para el select de Tipo de Cita)
+    List<String> tiposCita = centros.stream()
+            .flatMap(c -> c.getEspecialidades().stream())
+            .distinct()
+            .sorted()
+            .toList();
+
+    // ✅ nombres de centros (para el select de Centro Médico)
+    List<String> nombresCentros = centros.stream()
+            .map(CentroMedicoView::getNombre)
+            .distinct()
+            .sorted()
+            .toList();
+
+    model.addAttribute("tiposCita", tiposCita);
+    model.addAttribute("centros", nombresCentros);
+
+    return "usuario/citasDisponibles";
+}
+
 
     // Obtener horarios disponibles para una fecha y tipo de cita (AJAX)
     @GetMapping("/horarios")
@@ -81,9 +95,9 @@ public class UsuarioCitaController {
         List<String> todosHorarios = List.of("09:00", "10:00", "11:00", "14:00", "15:00");
 
         List<String> ocupados = citaService.obtenerCitasPorTipoYFecha(tipoCita, dia).stream()
-                .map(c -> c.getFechaHora().toLocalTime().toString())
-                .collect(Collectors.toList());
-
+        .filter(c -> c.getFechaHora() != null)
+        .map(c -> c.getFechaHora().toLocalTime().toString()) // "09:00"
+        .collect(Collectors.toList());
         return todosHorarios.stream()
                 .filter(h -> !ocupados.contains(h))
                 .collect(Collectors.toList());
@@ -104,8 +118,9 @@ public String solicitarCita(@RequestParam String tipoCita,
     LocalDateTime fechaHora = LocalDateTime.of(LocalDate.parse(fechaCita), LocalTime.parse(horario));
 
     boolean ocupado = citaService.obtenerCitasPorTipoYFecha(tipoCita, fechaHora.toLocalDate())
-            .stream()
-            .anyMatch(c -> c.getFechaHora().equals(fechaHora));
+        .stream()
+        .anyMatch(c -> c.getFechaHora() != null && c.getFechaHora().equals(fechaHora));
+
 
     if (ocupado) {
         redirectAttributes.addFlashAttribute("error", "El horario seleccionado ya está ocupado.");
@@ -152,22 +167,82 @@ public String cancelarCita(@PathVariable Long id, HttpSession session, RedirectA
 
 
     // Centros médicos (información)
-    @GetMapping("/centros")
+   @GetMapping("/centros")
 public String verCentros(HttpSession session, Model model) {
     Usuario usuario = obtenerUsuarioLogueado(session);
-    if (usuario == null)
-        return "redirect:/login";
+    if (usuario == null) return "redirect:/login";
 
-    // Lista de centros médicos — misma que usas en solicitud de cita
-    List<String> centros = List.of(
-            "Centro Médico Norte",
-            "Clínica Central",
-            "Hospital del Sur",
-            "IPS San Jose"
-    );
+    List<CentroMedicoView> centros = List.of(
+    new CentroMedicoView(
+        "Centro Médico Norte",
+        "Av. Principal #123, Zona Norte",
+        "+57 300 123 4567",
+        List.of("Cardiología", "Pediatría", "Medicina General"),
+        "2.5 km",
+        "/img/centros/norte.jpg"
+    ),
+    new CentroMedicoView(
+        "Clínica Central",
+        "Calle 45 #67-89, Centro",
+        "+57 300 987 6543",
+        List.of("Dermatología", "Oftalmología", "Neurología"),
+        "3.8 km",
+        "/img/centros/central.jpg"
+    ),
+    
+    new CentroMedicoView(
+        "Hospital del Sur",
+        "Cra 10 #20-30, Zona Sur",
+        "+57 301 555 0000",
+        List.of("Urgencias", "Medicina General", "Radiología"),
+        "6.1 km",
+        "/img/centros/sur.jpg"
+    ),
+    new CentroMedicoView(
+        "IPS San José",
+        "Cl 12 #34-56, San José",
+        "+57 302 444 2222",
+        List.of("Consulta General", "Odontología", "Laboratorio"),
+        "1.9 km",
+        "/img/centros/IPS SAN JOSE.jpg"
+    )
+);
+
+model.addAttribute("centros", centros);
+
 
     model.addAttribute("centros", centros);
     return "usuario/centrosMedicos";
 }
+
+private List<CentroMedicoView> getCentros() {
+    return List.of(
+        new CentroMedicoView(
+            "Centro Médico Norte",
+            "Av. Principal #123, Zona Norte",
+            "+57 300 123 4567",
+            List.of("Cardiología", "Pediatría", "Medicina General"),
+            "2.5 km",
+            "/img/centros/norte.jpg"
+        ),
+        new CentroMedicoView(
+            "Clínica Central",
+            "Calle 45 #67-89, Centro",
+            "+57 300 987 6543",
+            List.of("Dermatología", "Oftalmología", "Neurología"),
+            "3.8 km",
+            "/img/centros/central.jpg"
+        ),
+        new CentroMedicoView(
+            "Hospital del Sur",
+            "Carrera 10 #20-30, Sur",
+            "+57 301 555 8899",
+            List.of("Medicina General", "Urgencias"),
+            "5.1 km",
+            "/img/centros/sur.jpg"
+        )
+    );
+}
+
 
 }

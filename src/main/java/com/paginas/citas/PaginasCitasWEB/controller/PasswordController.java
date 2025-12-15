@@ -48,7 +48,6 @@ public class PasswordController {
         }
 
         usuario.setContrasena(contrasena);
-        usuarioService.actualizarUsuario(usuario);
 
         model.addAttribute("mensaje", "Contraseña actualizada correctamente. Ahora puedes iniciar sesión.");
         return "login";

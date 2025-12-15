@@ -34,11 +34,11 @@ public class LoginController {
             session.setAttribute("usuarioNombre", usuario.getNombre());
 
             // Redirigir según rol
-            if ("ADMIN".equals(usuario.getRol())) {
-                return "redirect:/usuarios"; // admin
-            } else {
-                return "redirect:/home"; // usuario normal
-            }
+           if ("ADMIN".equals(usuario.getRol())) {
+    return "redirect:/admin/usuarios"; // ✅ antes era /usuarios
+} else {
+    return "redirect:/home";
+}
 
         } else {
             redirectAttributes.addFlashAttribute("error", "Correo o contraseña incorrectos");

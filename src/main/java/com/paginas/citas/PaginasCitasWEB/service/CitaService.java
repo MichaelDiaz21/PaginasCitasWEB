@@ -42,9 +42,11 @@ public class CitaService {
     }
 
     public List<Cita> obtenerCitasPorTipoYFecha(String tipo, LocalDate fecha) {
-        return citaRepository.findByTipoAndFechaHoraBetweenAndUsuarioIsNull(
-                tipo,
-                fecha.atStartOfDay(),
-                fecha.atTime(LocalTime.MAX));
+    return citaRepository.findByTipoAndFechaHoraBetweenAndEstadoNot(
+            tipo,
+            fecha.atStartOfDay(),
+            fecha.atTime(LocalTime.MAX),
+            "CANCELADA"
+    );
     }
 }
